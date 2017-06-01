@@ -11,6 +11,8 @@ export interface GameScope {
 
 // Aqui podría sacar las medidas a otra interfaz para reutilizarlas
 export interface GameEntity {
+	posX: number;
+	posY: number;
 	width: number;
 	height: number;
 	color: string; // Por simplificar, ya se irá avanzando
