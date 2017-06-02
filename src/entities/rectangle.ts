@@ -1,40 +1,31 @@
-import { GameScope, GameEntity } from '../core/game.interfaces';
+import { GameScope, Point, Vector2D, Size2D, GameActor } from '../core/game.interfaces';
 
-export default class Rectangle implements GameEntity {
+export default class Rectangle extends GameActor {
 
-	private scope: GameScope;
-	private velX: number;
-	private velY: number;
+	private size: Size2D;
+	private color: string;
+	private velocity: Vector2D;
 
-	// Demasiados parámetros!!!
-	constructor(scope: GameScope, posX: number, posY: number, width: number, height: number, color: string) {
-		this.scope = scope;
-		this.posX = posX;
-		this.posY = posY;
-		this.width = width;
-		this.height = height;
+	constructor(position: Point, size: Size2D, color: string, velocity: Vector2D) {
+		super(position);
+		this.size = size;
 		this.color = color;
-		this.velX = Math.random() * 10;
-		this.velY = Math.random() * 10;
+		this.velocity = velocity;
 	}
 
-	posX: number;
-	posY: number;
-	width: number;
-	height: number;
-	color: string;
-
 	update(scope: GameScope): void {
-		if (this.posX <= 0 || this.posX + this.width >= scope.width)
-			this.velX = this.velX * -1;
-		if (this.posY <= 0 || this.posY + this.height >= scope.height)
-			this.velY = this.velY * -1;
-		this.posX = this.posX + this.velX;
-		this.posY = this.posY + this.velY;
+		if (this.position.x <= 0 || this.position.x + this.size.width >= scope.width)
+			this.velocity.x *= -1;
+		if (this.position.y <= 0 || this.position.y + this.size.height >= scope.height)
+			this.velocity.y *= -1;
+
+		this.position.x += this.velocity.x;
+		this.position.y += this.velocity.y;
 	}
 
 	render(scope: GameScope): void {
 		scope.context.fillStyle = this.color;
-		scope.context.fillRect(this.posX, this.posY, this.width, this.height);
+		scope.context.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
 	}
+
 }

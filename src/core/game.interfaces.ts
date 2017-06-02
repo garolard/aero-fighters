@@ -1,5 +1,5 @@
 export interface GameScope {
-	entities: GameEntity[];
+	entities: GameActor[];
 	width: number;
 	height: number;
 	targetFps: number;
@@ -9,17 +9,38 @@ export interface GameScope {
 	render: () => void;
 }
 
-// Aqui podría sacar las medidas a otra interfaz para reutilizarlas
-export interface GameEntity {
-	posX: number;
-	posY: number;
+export interface Size2D {
 	width: number;
 	height: number;
-	color: string; // Por simplificar, ya se irá avanzando
-	update: (scope: GameScope) => void;
-	render: (scope: GameScope) => void;
+}
+
+export interface Vector2D {
+	x: number;
+	y: number;
+}
+
+export interface Point {
+	x: number;
+	y: number;
+}
+
+export abstract class GameActor {
+	scope: GameScope;
+	protected position: Point; // Si siempre tiene una posición, ¿Debería tener siempre un tamaño?
+
+	constructor(position: Point) {
+		this.position = position;
+	}
+
+	abstract update(scope: GameScope): void;
+	abstract render(scope: GameScope): void;
 }
 
 export interface Game {
 	// Ya veré...
 }
+
+export const addActorTo = (scope: GameScope, actor: GameActor): void => {
+	actor.scope = scope;
+	scope.entities.push(actor);
+};
