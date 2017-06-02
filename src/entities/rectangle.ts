@@ -1,4 +1,5 @@
-import { GameScope, Point, Vector2D, Size2D, GameActor } from '../core/game.interfaces';
+import { Point, Vector2D, Size2D } from '../core/game.interfaces.foundation';
+import { GameScope, GameActor } from '../core/game.interfaces';
 
 export default class Rectangle extends GameActor {
 

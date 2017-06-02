@@ -1,3 +1,5 @@
+import { Point } from './game.interfaces.foundation';
+
 export interface GameScope {
 	entities: GameActor[];
 	width: number;
@@ -7,21 +9,6 @@ export interface GameScope {
 	context: CanvasRenderingContext2D;
 	update: () => void;
 	render: () => void;
-}
-
-export interface Size2D {
-	width: number;
-	height: number;
-}
-
-export interface Vector2D {
-	x: number;
-	y: number;
-}
-
-export interface Point {
-	x: number;
-	y: number;
 }
 
 export abstract class GameActor {
@@ -39,8 +26,3 @@ export abstract class GameActor {
 export interface Game {
 	// Ya veré...
 }
-
-export const addActorTo = (scope: GameScope, actor: GameActor): void => {
-	actor.scope = scope;
-	scope.entities.push(actor);
-};

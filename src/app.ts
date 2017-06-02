@@ -1,4 +1,6 @@
-import { GameScope, GameActor, Point, Vector2D, addActorTo, Size2D } from './core/game.interfaces';
+import { Point, Vector2D, Size2D } from './core/game.interfaces.foundation';
+import { GameScope, GameActor } from './core/game.interfaces';
+import { addActorTo } from './core/game.utils';
 import { gameLoop } from './core/game.loop';
 import { gameUpdate } from './core/game.update';
 import { gameRender } from './core/game.render';
@@ -32,6 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		y: scope.height / 2 - 25
 	};
 
+	// Hay que hacer una copia de la posición por si quiero reutilizar el objeto
+	// en varios Rectangle distintos y que cada uno modifique su propia posición
 	addActorTo(scope, new Rectangle({...position}, createRandomSize(), '#0f0', createRandomVelocity()));
 
 	const mainLoop = gameLoop(scope);
