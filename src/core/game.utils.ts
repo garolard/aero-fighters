@@ -1,6 +1,5 @@
-import { GameScope, GameActor } from './game.interfaces';
+import { Scope, Actor } from './game.interfaces';
 
-export const addActorTo = (scope: GameScope, actor: GameActor): void => {
-	actor.scope = scope;
+export const addActorTo = (scope: Scope, actor: Actor): void => {
 	scope.entities.push(actor);
 };

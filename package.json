@@ -7,14 +7,14 @@
     "pretest": "npm run lint",
     "test": "mocha test -u bdd -R spec",
     "lint": "tslint --project tsconfig.json",
-    "clean": "rimraf dist/*",
+    "clean": "rimraf dist/bundle.js",
     "cleanAndLint": "npm run clean && npm run lint",
     "prebuild": "npm run cleanAndLint",
     "build": "browserify src/app.ts -p [tsify -noImplicitAny -p tsconfig.json] --debug > dist/bundle.js",
     "prebuild:pro": "npm run cleanAndLint",
     "build:pro": "browserify src/app.ts -p [tsify -noImplicitAny -p tsconfig.json] | uglifyjs -mc > dist/bundle.js",
     "predev": "npm run cleanAndLint",
-    "dev": "watchify src/app.ts -p [tsify -p tsconfig.json] -o dist/bundle.js -v --debug"
+    "dev": "concurrently --kill-others \"watchify src/app.ts -p [tsify -p tsconfig.json] -o dist/bundle.js -v --debug\" \"browser-sync start --server --start-path=\"dist/\" --files 'dist/*'\""
   },
   "devDependencies": {
     "browserify": "^14.1.0",

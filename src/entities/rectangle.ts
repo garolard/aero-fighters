@@ -1,20 +1,16 @@
-import { Point, Vector2D, Size2D } from '../core/game.interfaces.foundation';
-import { GameScope, GameActor } from '../core/game.interfaces';
+import { Point, Vector2D, Dimension } from '../core/game.interfaces.foundation';
+import { Scope, Actor, Shape } from '../core/game.interfaces';
 
-export default class Rectangle extends GameActor {
+export default class Rectangle extends Shape {
 
-	private size: Size2D;
-	private color: string;
 	private velocity: Vector2D;
 
-	constructor(position: Point, size: Size2D, color: string, velocity: Vector2D) {
-		super(position);
-		this.size = size;
-		this.color = color;
+	constructor(position: Point, size: Dimension, color: string, velocity: Vector2D) {
+		super(position, size, color);
 		this.velocity = velocity;
 	}
 
-	update(scope: GameScope): void {
+	update(scope: Scope): void {
 		if (this.position.x <= 0 || this.position.x + this.size.width >= scope.width)
 			this.velocity.x *= -1;
 		if (this.position.y <= 0 || this.position.y + this.size.height >= scope.height)
@@ -24,9 +20,16 @@ export default class Rectangle extends GameActor {
 		this.position.y += this.velocity.y;
 	}
 
-	render(scope: GameScope): void {
-		scope.context.fillStyle = this.color;
-		scope.context.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
+	// Esto debería estar definido en una subclase de Actor llamada Shape o algo así.....
+	getPosition(): Point {
+		return this.position;
 	}
 
+	getSize(): Dimension {
+		return this.size;
+	}
+
+	getColor(): string {
+		return this.color;
+	}
 }

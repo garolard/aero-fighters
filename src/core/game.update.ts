@@ -1,6 +1,6 @@
-import { GameScope } from './game.interfaces';
+import { Scope } from './game.interfaces';
 
-export function gameUpdate(scope: GameScope) {
+export function gameUpdate(scope: Scope) {
 	return function update() {
 		const entities = scope.entities || [];
 

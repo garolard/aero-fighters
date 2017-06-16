@@ -1,11 +1,11 @@
-import { GameScope } from './game.interfaces';
+import { Scope } from './game.interfaces';
 
 let actualFps = 0;
 let stopLoop = 0;
 let frameCount = 0;
 let renderStartTime = 0;
 
-export function gameLoop(scope: GameScope) {
+export function gameLoop(scope: Scope) {
 	const targetFps = scope.targetFps;
 	const fpsInterval = 1000 / targetFps;
 	let lastFrameTime = window.performance.now();
