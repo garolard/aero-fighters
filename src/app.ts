@@ -5,6 +5,7 @@ import { gameLoop } from './core/game.loop';
 import { gameUpdate } from './core/game.update';
 import { gameRender } from './core/game.render';
 import Rectangle from './entities/rectangle';
+import Circle from "./entities/circle";
 
 document.addEventListener('DOMContentLoaded', () => {
 	const canvas = document.getElementById('main-canvas') as HTMLCanvasElement;
@@ -21,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		targetFps: 60,
 		showFps: true,
 		entities: [],
-		renderer: new ShapeRenderer(context),
+		renderers: [new DefaultRenderer(context), new RectangleRenderer(context), new CircleRenderer(context)],
 		update: () => { },
 		render: () => { }
 	};
@@ -46,7 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	addActorTo(scope, new Rectangle({...position}, createRandomSize(), '#f00', createRandomVelocity()));
 	addActorTo(scope, new Rectangle({...position}, createRandomSize(), '#f00', createRandomVelocity()));
 	addActorTo(scope, new Rectangle({...position}, createRandomSize(), '#f00', createRandomVelocity()));
-	addActorTo(scope, new Rectangle({...position}, createRandomSize(), '#f00', createRandomVelocity()));
+	addActorTo(scope, new Rectangle({ ...position }, createRandomSize(), '#f00', createRandomVelocity()));
+
+	addActorTo(scope, new Circle({ ...position }, Math.random() * 100, '#00f', createRandomVelocity()));
+	addActorTo(scope, new Circle({ ...position }, Math.random() * 100, '#00f', createRandomVelocity()));
+	addActorTo(scope, new Circle({ ...position }, Math.random() * 100, '#00f', createRandomVelocity()));
+	addActorTo(scope, new Circle({ ...position }, Math.random() * 100, '#00f', createRandomVelocity()));
+	addActorTo(scope, new Circle({ ...position }, Math.random() * 100, '#00f', createRandomVelocity()));
+	addActorTo(scope, new Circle({ ...position }, Math.random() * 100, '#00f', createRandomVelocity()));
 
 	const mainLoop = gameLoop(scope);
 	mainLoop(window.performance.now());
@@ -65,7 +73,17 @@ const createRandomSize = (): Dimension => {
 	};
 };
 
-class ShapeRenderer implements Renderer<Shape> {
+class DefaultRenderer implements Renderer<Actor> {
+
+	constructor(private context: CanvasRenderingContext2D) {}
+
+	render: (actor: Actor) => void;
+	clear() {
+		this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+	};
+}
+
+class RectangleRenderer implements Renderer<Rectangle> {
 
 	private context: CanvasRenderingContext2D;
 
@@ -73,7 +91,7 @@ class ShapeRenderer implements Renderer<Shape> {
 		this.context = context;
 	}
 
-	render(actor: Shape) {
+	render(actor: Rectangle) {
 		const pos = actor.getPosition();
 		const size = actor.getSize();
 
@@ -81,8 +99,19 @@ class ShapeRenderer implements Renderer<Shape> {
 		this.context.fillRect(pos.x, pos.y, size.width, size.height);
 	};
 
-	clear() {
-		this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
-	};
+	clear() { };
 }
 
+class CircleRenderer implements Renderer<Circle> {
+
+	constructor(private context: CanvasRenderingContext2D) { }
+
+	render(actor: Circle) {
+		this.context.fillStyle = actor.getColor();
+		this.context.beginPath();
+		this.context.ellipse(actor.getPosition().x, actor.getPosition().y, actor.getRadius(), actor.getRadius(), 0, 0, 2 * Math.PI);
+		this.context.fill();
+	};
+
+	clear() { };
+}

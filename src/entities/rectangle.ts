@@ -5,8 +5,8 @@ export default class Rectangle extends Shape {
 
 	private velocity: Vector2D;
 
-	constructor(position: Point, size: Dimension, color: string, velocity: Vector2D) {
-		super(position, size, color);
+	constructor(position: Point, private size: Dimension, color: string, velocity: Vector2D) {
+		super(position, color);
 		this.velocity = velocity;
 	}
 

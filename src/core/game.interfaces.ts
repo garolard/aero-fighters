@@ -6,7 +6,7 @@ export interface Scope {
 	height: number;
 	targetFps: number;
 	showFps: boolean;
-	renderer: Renderer<Actor>;
+	renderers: Renderer<Actor>[];
 	update: () => void;
 	render: () => void;
 }
@@ -28,11 +28,10 @@ export abstract class Actor {
 }
 
 export abstract class Shape extends Actor {
-	constructor(position: Point, protected size: Dimension, protected color: string) {
+	constructor(position: Point, protected color: string) {
 		super(position);
 	}
 
-	abstract getSize(): Dimension;
 	abstract getColor(): string;
 }
 
